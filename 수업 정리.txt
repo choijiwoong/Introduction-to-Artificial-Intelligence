@@ -1,0 +1,121 @@
+	[OT]
+교재 필수x, github로 주간과제 업로드 예정. 출석10 깃허브 30 중간 30 기말 30. 메일 실시간 답변. 지정좌석 예정
+1. Github 개설 주소를 메일 kainos@gachon.ac.kr로 보내기. 프로젝트 만들어서 week1, week2 정리
+2. Anaconda와 파이썬 설치. Colab은 사용 자제하고 하나의 환경에서 수행
+3. 교수님 github 1~20번 FAQ 수기 입력 25일 수업 전까지 과제. 스캔(2번에 semi-supervisor도) 3/25일 수업 전 까지. 개인 github HW1폴더에 업로드
+    -3번문제 조건식을 사람이 작성 / 기계가 작성. 특징으로부터 규칙을 도출
+    -4번문제 딥러닝(raw데이터_직접 특성을 추출함) 머신러닝(특성값_무조건) 특성추출필요성 차이. 참고로 딥러닝에 특성값넣으면 성능향상되긴 함(raw데이터들의 평균, 표준편차 등을 넣으면 더 잘 파악한다!)
+4. 다음주에  ipynb할거임 1~2 각자 실행해보기1
+
+	[2주차]
+1. 맨 좌측 4번째 벽에서 한칸 띄고 자리!
+2. 다음 시간에 다음에 할 것 미리 준비해보고 실행해보고 오기
+3. MSE는 실제-예측의 제곱합. Classification: accuracy, confusion_matrix(tt, tf, ft, ff) / Regression: mse
+결정트리분류, 결정트리회귀의 오차계산 코드 중요***
+4. 교재 구매. 12페이지 인공지능 정의, 15페이지 지능, 16-17페이지 머신러닝과 딥러닝의 차이점(추출된 특성을 넣음, 모델에서 특성을 추출), 18페이지 인공지능 역사?? 그냥 책을 잘 읽어보자. ***튜링테스트***, AI의 단점_컴퓨팅파워의 부족 해결가능한 현실적인 문제의 부족 적절한 데이터의 부족 레이블링의 어려움 구조변경의 어려움. 기존 룰베이스의 한계로 인해 기계학습 도입. AI는 특징을 추출하는 기계로도 부를 수 있다(머신러닝에서. 딥러닝은 아니양) 27페이지 지능을 정의해보자(분류, 예측_회귀, 물체탐지). 79페이지 2차원 데이터 처리 shape변경. numpy는 skip. 93페이지로 numpy로 MSE계산하기 개중요*** 민스크 에러MISZ. 제곱하는 이유는 음수값이 나와 양수 오차가 상쇄될 수 있기에. 93페이지 시험출제***오차구현 및 계산. 106페이지 4번째 줄 ***'머신러닝에서는 문제를 해결하기 위해서는 알고리즘 없이 데이터만 제공해주면 된다.' 머신러닝은 코드가 필요없다..?라는 문장.*** 109페이지 지도비지도강화->피처&레이블, 피처, 안함 별 알고리즘 이름 분류***. 111페이지 선형회귀 설명단락. 머신러닝의 가정. 116페이지 train test데이터 분리 이유 real world에서의 성능, 118페이지. 120페이지 uci repository
+5. Data Collection, Data Cleaning(Scaling), Feature Extration, Feature Selection, Model Building&Training&Testing, Hyper-parameter Tuning, Performance Evaluation
+
+	[3주차_3/18]
+1. 수기 리포트 4/1까지 연장
+2. confusion matrix 어느 항목이 분류가 잘 되었는가. matrix수치보고 정확도 계산(sum하고 대각선만) 
+   이건 분류! 회귀는 MSE
+3. p127. 8x8픽셀 그림 3-7같은건 feature를 모델에서밖에 못뽑지?
+4. 실기2번 머신러닝, 딥러닝 각 1회씩. csv데이터주고 한뒤에 제출. classification & regression. 머신은 4가지모델 딥러닝은 1가지 모델
+5. 붓꽃 헤더없으면 로드시 header=None. 따로 넣을거면 names=['petal width', ..., 'class']. 만약 컬럼명이 있다면 index_col=0으로 설정
+6. X=df.drop('class', axis=1)은 1은 Y축을 기준으로 자른다는 말이고, X축(열)을 기준으로 자를거면 axis=0
+7. 클래스 불균형: 적절한 회귀모델이 아니라 특정 클래스에 치우져진 것. 훈련용으로는 문제가 없이 잘 됨.
+	ㄴdf['label'].value_counts()로 데이터가 특정 레이블에 치우져져있지는 않은지 확인! 가시화를 위해서는 
+# 레이블 갯수 확인 (그래프)
+import seaborn as sns
+
+sns.countplot(data = df, x="Class")
+plt.xlabel("Besni or Kecimen")
+plt.ylabel("Count")
+plt.title("Label")
+
+8. 절차: Data Loading->Data Cleaning(결측치, 이상치)->Data Scaling(map 0~1)->
+   결측치 제거: df.isnull().sum()으로 확인, df.dropna() 대신 결측값이 너무 많을 경우 평균값으로 대체
+9. titanic의 EDA(Data Analysis): 탑승객id 같은거 제거하려면 아래. 가능하면 column이름은 복붙! 
+	ㄴ이때 지울지말지에 대한 판단은 둘 다 해보고 accuracy로 판단.
+#df.loc[df['Age'] != df['Age'], 'Age'] = df['Age'].mean()
+df_mean=df['Age'].mean()
+df['Age'].fillna(df_mean, inplace=True)#원본 변경
+df.isnull().sum()
+
+10. titanic 이상치 살아남은 80대
+plt.scatter(df['Survived'], df['Age'])
+plt.xlabel("Age")
+plt.ylabel("Survived")
+plt.title("scatter example")
+plt.grid(True)
+plt.show()
+
+11. boxplot은 34%? 막 이래서 정해진 퍼센트를 범위로 표시하는거
+	ㄴ#boxplot = df.boxplot(column=['Age'])
+sns.set_theme(style="whitegrid")
+sns.boxplot(x="Age", data=df)
+plt.title("mean Age")
+plt.show()
+
+12. 다다음주 시험(실험) 및 UCI에서 알아서 연습하고 github에 업로드! 가산점
+
+	[4주차_3/25]
+1. p.62 클래스 초기화 기본 파이썬 문법. p.69 numpy의 array에 대한 기본적인 설명. p.76 그림 1~5. p.85 data1, data2. p81의 표현식들(배열을 어떻게 설정할 것인가). p.51 csv파일 읽기. p.93 MSE계산하기. 
+2. numpy와 pandas의 차이점은 datagram은 컬럼명을 쓸 수 있기에 drop이나 filter시에 편리하다. 딥러닝때에는 numpy로 변환해야한다.
+3. 머신러닝은 클래스가 숫자로 안돼있어도 상관없다. 딥러닝은 클래스를 숫자로 바꿔줘야한다(one-hot-encoding_결과 클래스 명 or one-hot vector) 즉, 머신러닝은 text feature는 못읽기에 숫자로 인코딩해야하나, label이 영문이어도 상관없다. 딥러닝은 feature나 label 둘 다 숫자로 인코딩해야한다.
+4. one-hot encoding의 필요성은 일반 숫자로 labeling하면 0 dog 1 cat 2 cow에서 0과 2의 차이가 더 큰 것어처럼 인식되기에 이를 해소하고자 [0 0 1] [1 0 0]으로 바꾸어 labeling들의 차이를 동일하게 한다.
+5. pandas가 컬럼명이 있어 쉽지만 머신러닝에서와 달리 딥러닝에서는 numpy로 바꾸어야 한다. 고로 pandas로 가공 후 numpy(datagram)로 바꾼다.
+6. 전통적인 프로그래밍 (input, rule)->(output)인 반면, 인공지능은 (input , output)->(rule)이다. 중요!!!***
+7. 수업을 떠나서 인터넷 안보고 csv파일만으로 분류 회귀 딥러닝 머신러닝 할 수 있게 하자.
+8. p84. 산점도 그리기. ppt의 기본적인 점그리기(plt.plot(x,y,"sm")), 막대그래프그리기(plt.bar()), 히스토그램plt.hist(nums), plt.scatter(x,y,범례). p.109그림. p.110 회귀와 분류의 정의(추세발견, 원리는 같다). p.115 밑에서 4번째 줄 이 단계에서는 변수간의 관계와 불균형(결측치, 이상치, 불균형해소)을 확인하지 않으면 편향이 발생한다.******* p.119 w와 b를 임의의 값으로 초기화한 뒤 맞춘다(딥러닝 얘기), p.123 KNN k-nearest Neighbor은 특성연관그래프(x1, x2)에서 예측지점에서 가장 가까운 k개를 고름. k는 2개이상. knn elbow를 찾기위해 k값을 조정.
+9. classification은 accuracy와 confusion을 꼭 둘 다 해야한다(feat. f1-score)****** 3. DL_classification_breast_cancer.ipynb참고
+10. p.130******혼동행렬(TP, FP, FN, TN). acc=(TP+TN)/(TP+TN+FP+FN). 민감도(재현율)******=TP/(TP+FN), 특이도=TN/(TN+FP), 정밀도=TP/(TP+FP), F1=(2*precision*recall)/(Precision+racall)
+이러한 경우구분이 필요한 것이 헬스케어의 경우 재현율이 중요한데, 실제 낙상된걸 못발견하는 것보다, 낙상안났는데 알림가는게 더 중요하기 때문이다. 그리고 상대적으로 TP가 높은 경우 다른 항목들이 무시되는 경우가 발생할 수 있다. 그 기준은 TN에 비해 FN과 FP가 괜찮은지. 이를 F1-score로 알 수 있다.
+F1-score과 accuracy의 차이는 data balancing을 고려했는지 여부이다*****. metrics.classification_report(precision, recall, f1, support)의 분류결과를 보고 분석이 가능해야한다.****
+11. p.140 회귀란 2차원 공간에서 feature들의 상관관계를 잘 성명하는 직선이나 곡선을 찾는 것이다.******
+feature가 여러개면 다중 선형회귀라고 함. p.143회귀 절편*****. p.144~145 손실함수에서 제곱하는 이유는 음수차이를 위함. 간격제곱합이 MSE(시그마 이용한 공식!!) & 머신러닝에서 모델을 학습한다는 것은 손실함수에서 가중치와 편향(기울기와 절편)을 구하는 것이다.***** p150. 보진말고 참고만 regression 구현.
+12. feature가 너무 많으면 과잉적합. 
+13. p.150 모델이 단순하거나 데이터가 부족하면 언더피팅, 데이터가 너무 많아 노이즈까지 반영되어 모델이 복잡해져 너무 민감해지면 오버피팅->피처를 줄이거나(리소 랏지) 규제를 추가하여 모델을 단순화. p.155가장 흔한게 오버피팅. ************* p.155 그림 4-11에서 a는 언더피팅 b는 잘맞고 c는 오버피팅
+***차이점, 원인, 해결책***
+14. data argumentation이 늘리거나 역순해서 데이터 증가시키는거
+
+15. 실습. 상관관계 3정도면 관계가 있다 라고 함.
+보스턴 집값에서 상관관계 큰것만 뽑아 결과 산출해보기.(feature selection)
+붓꽃에서 sepal length를 예측하게끔 regression으로 변경하기
+KNN도 붓꽃 해보기
+중간고사는 필기!
+
+	[5주차]
+1. 회귀: 독립변수 X에 대해 종속변수 Y의 추론
+2. 손실이 작은걸 찾는경우 argmin()으로 표시, 큰걸 찾으면 argmax()로 표시하기도 함. 참고. ML은 손실함수값이 작아지는 것을 찾는거니 argmin()
+3. KNN이란? 근처 Label을 보고 결정함. k를 조정하다가 최적값인 Elbow를 찾아
+4. 결정트리는 스무고개처럼 찾아가는 방법인데, 이를 나눌 때 지니계수(불순도가 0 혹은 1이면 분류가 잘 된것. 1-(a/n)**2-((n-a)/n)**2로 계산)가 0혹은 1에 가까워지게 구성한다***시험***
+5. Logistic회귀는 sigmoid에 의해 0혹은 1로 구분
+6. SVM(Super Vector Machine)은 결정경계(초평면)을 기준으로 +-margin만큼의 항목을 Soft Vector라고 하고 그 외에 항목을 Hard Vector라고 한다. soft vector들간의 margin을 구하는 것을 목표로 한다**추가이해필요**
+7. Activation Function을 사용하는 이유 선형함수로는 층이 쌓이지 않기 때문에 비선형성을 주기 위해 Sigmoid를 사용.(Logistic Regression에서 사용된 함수 맞음)
+8. Spcaial CrossEntropy는 one-hot encoding이 필요없는 경우 사용.
+9. DL의 순전파, 역전파, 손실함수(MSE, BCE, SCE, CE), 옵티마이저, 활성화 함수가 중요.
+10. p170에서는 간단한 예시를 위해 활성화 함수로 계단함수(x<0?0:1)를 사용했음.
+11. p187에서 퍼셉트론 bias 혹은 입력 혹은 weight를 변경했을 때 출력값 계산하기 **시험에 낼거임** 연습문제는 다 풀어라!!!! 5번처럼 4개샘플주고 W1, W2, b 연립방정식으로 계산도 중요. 대충 만족하는거 하나 정하면 됨
+12. Bias의 역활은 얼마나 뉴런이 쉽게 활성화 되는가 / 가중치는 입력신호가 출력신호에 미치는 중요도
+13. ******p wt+1(다음의 가중치 값) wit n학습률 dk+yk+...는 보정값. 수식 기호는 읽을수 있어야한다. p.174와 p.149 p.209 p.175 코딩중 부동소수점 오차방지를 위한 활성화함수(step_function)에 epsilion도입 중요***
+14. sklearn으로 퍼셉트론을 생성하고, 학습하고, 수행시킬 수 있음. 다만 퍼셉트론의 한계점으로 XOR을 구현할 수 없음. 해당을 만족하는 다층 퍼셉트론(2개) 꼭 숙지 ***시험***
+15. 퍼셉트론 계산 시 가중치나 편향을 표시하는 위치가 다 다르니 최대한 다양한 교재의 표현법을 익히자. 퍼셉트론에는 그림에 표현되어있지 않지만 활성화 함수가 있다. 이를 고려해야한다!! 
+Q. 퍼셉트로 3개쓴거 맞죠? 그림
+16. p.239 4번 중요.
+17. 모델 Input Shape에 X_train.shape[1]로 해도 된다. 그리고 model을 fitting시킬 때 validation_data로 test를 넣어버리면 test결과가 당연히 좋게 나오니, train data에서 분류해서 사용하도록 validation_split=0.1식으로 해야한다.
+18. DL과정: Label을 숫자로 변환(LabelEncoder)->X Y 분리->Y를 one-hot encoding 및 numpy변환->X를 numpy변환->모델에서 입력/출력층 개수 수정->분류에 따라 마지막 레이어의 활성함수 및 손실함수 수정
+
+
+
+
+
+
+
+
+
+
+
+
+
+

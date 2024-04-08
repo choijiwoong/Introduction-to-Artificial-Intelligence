@@ -106,7 +106,8 @@ Q. 퍼셉트로 3개쓴거 맞죠? 그림
 17. 모델 Input Shape에 X_train.shape[1]로 해도 된다. 그리고 model을 fitting시킬 때 validation_data로 test를 넣어버리면 test결과가 당연히 좋게 나오니, train data에서 분류해서 사용하도록 validation_split=0.1식으로 해야한다.
 18. DL과정: Label을 숫자로 변환(LabelEncoder)->X Y 분리->Y를 one-hot encoding 및 numpy변환->X를 numpy변환->모델에서 입력/출력층 개수 수정->분류에 따라 마지막 레이어의 활성함수 및 손실함수 수정
 
-
+	[6주차]
+1. 
 
 
 
